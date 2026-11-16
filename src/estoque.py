@@ -26,6 +26,15 @@ class Estoque:
         """Retorna as unidades em estoque do produto (0 se não houver)."""
         return self._quantidades.get(codigo, 0)
 
+    def consultar_disponibilidade(self, codigo):
+        """Retorna a quantidade disponível de um produto cadastrado.
+
+        Produto cadastrado sem estoque retorna 0. Lança ValueError se o
+        produto não estiver cadastrado no catálogo.
+        """
+        self._validar_produto_cadastrado(codigo)
+        return self.quantidade(codigo)
+
     def _validar_produto_cadastrado(self, codigo):
         if self._catalogo.obter_por_codigo(codigo) is None:
             raise ValueError(MENSAGEM_PRODUTO_NAO_ENCONTRADO.format(codigo=codigo))

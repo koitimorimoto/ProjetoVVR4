@@ -43,6 +43,20 @@ class Carrinho:
         """Retorna quantos produtos diferentes estão no carrinho."""
         return len(self._itens)
 
+    def calcular_total(self):
+        """Retorna a soma de preço x quantidade de todos os itens.
+
+        Carrinho vazio retorna 0.
+        """
+        return sum(
+            self._subtotal(codigo, quantidade)
+            for codigo, quantidade in self._itens.items()
+        )
+
+    def _subtotal(self, codigo, quantidade):
+        preco = self._catalogo.obter_por_codigo(codigo).preco
+        return preco * quantidade
+
     def _validar_disponibilidade(self, codigo, quantidade_desejada):
         disponivel = self._estoque.consultar_disponibilidade(codigo)
         if quantidade_desejada > disponivel:
